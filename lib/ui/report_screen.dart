@@ -18,7 +18,7 @@ class _ReportScreenState extends State<ReportScreen> {
           centerTitle: true,
           actions: [
             TextButton(
-                onPressed: () {},
+                onPressed: sendSMSAuth,
                 child: Text(
                   "Send!",
                   style: TextStyle(
@@ -128,4 +128,8 @@ class _ReportScreenState extends State<ReportScreen> {
 //     icon: Icon(Icons.add),
 //   );
 // }
+
+  void sendSMSAuth() {
+
+  }
 }

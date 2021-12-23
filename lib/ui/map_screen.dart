@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-
 
 class MapSample extends StatefulWidget {
   @override
@@ -26,10 +26,11 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       body: GoogleMap(
         mapType: MapType.hybrid,
         initialCameraPosition: _kGooglePlex,
+        gestureRecognizers: {Factory(() => EagerGestureRecognizer())},
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },

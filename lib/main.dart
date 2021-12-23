@@ -30,7 +30,7 @@ class Start extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home: OnBoarding(),
+      home:OnBoarding(),
     );
   }
 }
