@@ -57,6 +57,7 @@ class _OnBoardingState extends State<OnBoarding> {
   @override
   void initState() {
     super.initState();
+    _updateSeen();
     _addPages();
   }
 
@@ -137,7 +138,6 @@ class _OnBoardingState extends State<OnBoarding> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          _updateSeen();
                           return LoginScreen();
                         },
                       ),

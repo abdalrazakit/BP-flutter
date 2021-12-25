@@ -21,53 +21,59 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Login")),
-      body: BlocBuilder(
-          bloc: cubit,
-          builder: (context, LoginState state) {
-            if (state.loading) {
-              return Center(child: const CircularProgressIndicator());
-            }
-            return Form(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: _phonenumbercontroller,
-                          decoration:
-                              const InputDecoration(labelText: "Phone Number"),
+      body: BlocListener(
+        bloc: cubit,
+        listener: (context, state) {},
+        child: BlocBuilder(
+            bloc: cubit,
+            builder: (context, LoginState state) {
+              if (state.loading) {
+                return Center(child: const CircularProgressIndicator());
+              }
+              return Form(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: _phonenumbercontroller,
+                            decoration: InputDecoration(
+                                labelText: "Phone Number",
+                                errorText: state.login_error),
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 16),
-                      TextButton(
-                          onPressed: () {
-                            cubit.sendCode(_phonenumbercontroller.text);
-                          },
-                          child: Text("Send Code"))
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: _smsTextController,
-                      decoration: const InputDecoration(labelText: "SMS"),
+                        SizedBox(width: 16),
+                        TextButton(
+                            onPressed: () {
+                              cubit.sendCode(_phonenumbercontroller.text);
+                            },
+                            child: Text("Send Code"))
+                      ],
                     ),
-                  ),
-                  Spacer(),
-                  ElevatedButton(
-                    onPressed: () {
-                      cubit.login(_phonenumbercontroller.text, _smsTextController.text);
-                    },
-                    child: Text("Login"),
-                  ),
-                  Spacer(),
-                ],
-              ),
-            );
-          }),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: _smsTextController,
+                        decoration: const InputDecoration(labelText: "SMS"),
+                      ),
+                    ),
+                    Spacer(),
+                    ElevatedButton(
+                      onPressed: () {
+                        cubit.login(_phonenumbercontroller.text,
+                            _smsTextController.text);
+                      },
+                      child: Text("Login"),
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              );
+            }),
+      ),
     );
   }
 }
