@@ -39,7 +39,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: Icon(Icons.report_gmailerrorred,color: Colors.red,size: 28,),
             title: Text('New Report'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushReplacement(context,MaterialPageRoute(
+                builder: (context) {
+                  return ReportScreen();
+                },
+              ),);
             },
           ),
           ListTile(
@@ -47,7 +51,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: Text('Subscribes'),
             onTap: () {
               //Navigator.pop(context);
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
@@ -77,7 +81,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: Text('Profile'),
             onTap: () {
               //Navigator.pop(context);
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) {

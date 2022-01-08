@@ -1,3 +1,4 @@
+import 'package:final_project/ui/custom_drawer.dart';
 import 'package:final_project/ui/map_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,9 @@ class _SubscribesState extends State<Subscribes> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Subscribes"),
+        centerTitle: true,
       ),
+      drawer: CustomDrawer(),
       body: Stack(
         children: [
           Column(

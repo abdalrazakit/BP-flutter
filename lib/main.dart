@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'image_picker.dart';
+
+
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -30,7 +33,7 @@ class Start extends StatelessWidget {
           if (!seen) {
             return OnBoarding();
           } else {
-            return LoginScreen();
+            return MyHomePage();
           }
         },
       ),

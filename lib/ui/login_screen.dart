@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:final_project/login_state.dart';
+import 'package:final_project/ui/report_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +24,21 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(title: Text("Login")),
       body: BlocListener(
         bloc: cubit,
-        listener: (context, state) {},
+        listener: (context, login_success ) {
+          if(login_success == true){
+            _showToast(context);
+          }else{
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return ReportScreen();
+                },
+              ),
+            );
+
+          }
+        },
         child: BlocBuilder(
             bloc: cubit,
             builder: (context, LoginState state) {
@@ -73,6 +88,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               );
             }),
+      ),
+    );
+  }
+  void _showToast(BuildContext context) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: const Text('Wrong'),
+        action: SnackBarAction(label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
   }

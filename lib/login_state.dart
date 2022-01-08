@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,11 +16,17 @@ class LoginCubit extends Cubit<LoginState> {
 
   sendCode(String phone) async {
     emit(LoginState(loading: true));
-    var s = "https://yesilkalacak.com/api/user/sendCode?phone=" + phone;
-    var req = await dio.post((s));
-    emit(LoginState(loading: false));
-    // var data = req.data;
-    // data.
+    try {
+      var s = await dio.post(("https://yesilkalacak.com/api/user/sendCode"),
+          data: {"phone": phone});
+      emit(LoginState(loading: false ));
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 411) {
+          emit(new LoginState(loading: false, login_error: "Wrong number"));
+        }
+      }
+    }
   }
 
   login(String phone, String code) async {

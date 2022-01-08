@@ -1,4 +1,5 @@
 
+import 'package:final_project/ui/custom_drawer.dart';
 import 'package:flutter/material.dart';
 
 class PersonalInformation extends StatefulWidget {
@@ -16,6 +17,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
         title: Text("Personal Information"),
         centerTitle: true,
       ),
+      drawer: CustomDrawer(),
       body: Column(
 
       ),

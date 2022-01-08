@@ -18,7 +18,7 @@ class _ReportScreenState extends State<ReportScreen> {
           centerTitle: true,
           actions: [
             TextButton(
-                onPressed: sendSMSAuth,
+                onPressed: sendReport,
                 child: Text(
                   "Send!",
                   style: TextStyle(
@@ -129,7 +129,7 @@ class _ReportScreenState extends State<ReportScreen> {
 //   );
 // }
 
-  void sendSMSAuth() {
+  void sendReport() {
 
   }
 }
