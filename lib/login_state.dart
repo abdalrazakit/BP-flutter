@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:final_project/new_report_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -19,7 +20,7 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       var s = await dio.post(("https://yesilkalacak.com/api/user/sendCode"),
           data: {"phone": phone});
-      emit(LoginState(loading: false ));
+      emit(LoginState(loading: false,login_success: false));
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response!.statusCode == 411) {
@@ -34,8 +35,8 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       var req = await dio.post(("https://yesilkalacak.com/api/user/login"),
           data: {"code": code, "phone": phone});
-      var token = req.data["data"]["token"];
-      var user = req.data["data"]["user"];
+        token = req.data["data"]["token"];
+        user = req.data["data"]["user"];
       emit(LoginState(loading: false, login_success: true));
     } on DioError catch (e) {
       if (e.response != null) {

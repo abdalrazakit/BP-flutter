@@ -24,8 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(title: Text("Login")),
       body: BlocListener(
         bloc: cubit,
-        listener: (context, login_success ) {
-          if(login_success == true){
+        listener: (context, login ) {
+          if((login as LoginState).login_success != true){
             _showToast(context);
           }else{
             Navigator.pushReplacement(
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        content: const Text('Wrong'),
+        content: const Text('Code Sended'),
         action: SnackBarAction(label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
