@@ -1,11 +1,9 @@
-import 'package:final_project/ui/login_screen.dart';
-
-import './ui/report_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'models/on_boarding_model.dart';
+import 'ui/new_report/new_report_screen.dart';
 
 class OnBoarding extends StatefulWidget {
   @override
@@ -138,7 +136,7 @@ class _OnBoardingState extends State<OnBoarding> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return LoginScreen();
+                          return NewReportScreen(); // LoginScreen();
                         },
                       ),
                     );

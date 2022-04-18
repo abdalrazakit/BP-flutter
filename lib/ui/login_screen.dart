@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:final_project/login_state.dart';
-import 'package:final_project/ui/report_screen.dart';
+import 'package:final_project/ui/new_report/new_report_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,19 +22,18 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(title: Text("Login")),
       body: BlocListener(
         bloc: cubit,
-        listener: (context, login ) {
-          if((login as LoginState).login_success != true){
+        listener: (context, login) {
+          if ((login as LoginState).login_success != true) {
             _showToast(context);
-          }else{
+          } else {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return ReportScreen();
+                  return NewReportScreen();
                 },
               ),
             );
-
           }
         },
         child: BlocBuilder(
@@ -91,12 +88,14 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   void _showToast(BuildContext context) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
         content: const Text('Code Sended'),
-        action: SnackBarAction(label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+        action: SnackBarAction(
+            label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
   }

@@ -1,21 +1,22 @@
 import 'dart:io';
 
-import 'package:final_project/new_report_cubit.dart';
+import 'package:final_project/ui/new_report/new_report_cubit.dart';
 import 'package:final_project/ui/pick_map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'map_screen.dart';
-import 'custom_drawer.dart';
 
-class ReportScreen extends StatefulWidget {
-  const ReportScreen({Key? key}) : super(key: key);
+import '../custom_drawer.dart';
+import 'new_report_state.dart';
+
+class NewReportScreen extends StatefulWidget {
+  const NewReportScreen({Key? key}) : super(key: key);
 
   @override
-  _ReportScreenState createState() => _ReportScreenState();
+  _NewReportScreenState createState() => _NewReportScreenState();
 }
 
-class _ReportScreenState extends State<ReportScreen> {
+class _NewReportScreenState extends State<NewReportScreen> {
   final controller = TextEditingController();
   late NewReportCubit bloc;
 
@@ -31,21 +32,21 @@ class _ReportScreenState extends State<ReportScreen> {
       bloc: bloc,
       builder: (context, NewReportState state) {
         if (state.loading) {
-          return Material(color: Colors.white,
+          return const Material(
               child: Center(
             child: CircularProgressIndicator(),
           ));
         }
         return Scaffold(
             appBar: AppBar(
-              title: Text("A New Report"),
+              title: const Text("A New Report"),
               centerTitle: true,
               actions: [
                 TextButton(
                     onPressed: () {
                       bloc.saveReport();
                     },
-                    child: Text(
+                    child: const Text(
                       "Send!",
                       style: TextStyle(
                           color: Colors.red,
@@ -64,17 +65,19 @@ class _ReportScreenState extends State<ReportScreen> {
                         return PickMapSample(bloc: bloc);
                       }),
                       color: Colors.deepPurple,
-                      height: 350,
+                      height: 300,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     _buildDescription(),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    _addImage(),
-                    SizedBox(
+
+                    if (bloc.image == null) _addImage() else _previewImage(),
+
+                    const SizedBox(
                       height: 50,
                     ),
                     //_buildSendButton(),
@@ -97,8 +100,8 @@ class _ReportScreenState extends State<ReportScreen> {
         child: FloatingActionButton.extended(
           backgroundColor: Colors.white,
           onPressed: () {},
-          label: Text('Select a Location'),
-          icon: Icon(Icons.map),
+          label: const Text('Select a Location'),
+          icon: const Icon(Icons.map),
         ),
       ),
     );
@@ -108,16 +111,52 @@ class _ReportScreenState extends State<ReportScreen> {
     return Center(
       child: FloatingActionButton.extended(
         backgroundColor: Colors.white,
-
         onPressed: () async {
-          final image =
-              await ImagePicker().getImage(source: ImageSource.camera);
+          final selectedImage = (await ImagePicker().getImage(
+                  source: ImageSource.camera,
+                  imageQuality: 50,
+                  maxHeight: 720,
+                  maxWidth: 1024))
+              ?.path;
 
-          //bloc.changeImage(image?.path);
+          bloc.changeImage(selectedImage);
         },
-        label: Text('Take a Photo'),
-        icon: Icon(Icons.camera_alt_outlined),
+        label: const Text('Take a Photo'),
+        icon: const Icon(Icons.camera_alt_outlined),
       ),
+    );
+  }
+
+  Widget _previewImage() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Material(
+          borderRadius: BorderRadius.circular(16),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: InkWell(
+            onTap: () {
+              bloc.changeImage(null);
+            },
+            child: Stack(
+              children: [
+                Image.file(
+                  File(bloc.image!),
+                  fit: BoxFit.cover,
+                  height: 100,
+                  width: 100,
+                ),
+                Positioned.fill(
+                    child: Container(
+                  color: Colors.black38,
+                )),
+                const Positioned.fill(
+                  child: Center(
+                    child: Icon(Icons.clear),
+                  ),
+                )
+              ],
+            ),
+          )),
     );
   }
 
@@ -137,21 +176,21 @@ class _ReportScreenState extends State<ReportScreen> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(18),
                 ),
-                label: Text(
+                label: const Text(
                   "Description",
                   style: TextStyle(color: Colors.white, fontSize: 22),
                 ),
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.description_outlined,
                   color: Colors.white,
                 ),
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   color: Colors.purple,
                   fontStyle: FontStyle.italic,
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(2),
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: Colors.white,
                     width: 2.0,
                   ),

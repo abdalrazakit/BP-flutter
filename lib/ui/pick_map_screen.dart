@@ -1,18 +1,16 @@
 import 'dart:async';
 
-import 'package:final_project/ui/custom_drawer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../new_report_cubit.dart';
+import 'new_report/new_report_cubit.dart';
 
 class PickMapSample extends StatefulWidget {
-  final NewReportCubit bloc ;
+  final NewReportCubit bloc;
 
-  const PickMapSample({Key? key,required this.bloc}) : super(key: key);
+  const PickMapSample({Key? key, required this.bloc}) : super(key: key);
   @override
   State<PickMapSample> createState() => PickMapSampleState();
 }
@@ -33,24 +31,22 @@ class PickMapSampleState extends State<PickMapSample> {
 
   @override
   Widget build(BuildContext context) {
-    return   Builder(
-      builder: (context) {
-        return GoogleMap(
-            mapType: MapType.hybrid,
-            myLocationEnabled: true,
-            onTap:(d){widget.bloc.onMapTap(d);} ,
-            mapToolbarEnabled: true,
-            markers: widget. bloc.getMarkers(),
-            initialCameraPosition: _kGooglePlex,
-            gestureRecognizers: {Factory(() => EagerGestureRecognizer())},
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-          );
-      }
-    )  ;
-
-
+    return Builder(builder: (context) {
+      return GoogleMap(
+        mapType: MapType.hybrid,
+        myLocationEnabled: true,
+        onTap: (d) {
+          widget.bloc.onMapTap(d);
+        },
+        mapToolbarEnabled: true,
+        markers: widget.bloc.getMarkers(),
+        initialCameraPosition: _kGooglePlex,
+        gestureRecognizers: {Factory(() => EagerGestureRecognizer())},
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+      );
+    });
   }
 
   Future<void> _goToTheLake() async {

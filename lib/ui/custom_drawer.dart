@@ -1,6 +1,6 @@
+import 'package:final_project/ui/new_report/new_report_screen.dart';
 import 'package:final_project/ui/personal_information.dart';
-import 'package:final_project/ui/report_screen.dart';
-import 'package:final_project/ui/subscribes.dart';
+import 'package:final_project/ui/subscribes/subscribes_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'map_screen.dart';
@@ -20,13 +20,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.black38
-              // image: DecorationImage(
-              //   image: AssetImage("assets/images/drawer.jpg"),
-              //   fit: BoxFit.cover,
-              // ),
-            ),
+            decoration: BoxDecoration(color: Colors.black38
+                // image: DecorationImage(
+                //   image: AssetImage("assets/images/drawer.jpg"),
+                //   fit: BoxFit.cover,
+                // ),
+                ),
             child: Text(
               'Drawer',
               style: TextStyle(
@@ -36,18 +35,29 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.report_gmailerrorred,color: Colors.red,size: 28,),
+            leading: Icon(
+              Icons.report_gmailerrorred,
+              color: Colors.red,
+              size: 28,
+            ),
             title: Text('New Report'),
             onTap: () {
-              Navigator.pushReplacement(context,MaterialPageRoute(
-                builder: (context) {
-                  return ReportScreen();
-                },
-              ),);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return NewReportScreen();
+                  },
+                ),
+              );
             },
           ),
           ListTile(
-            leading: Icon(Icons.add_alert_outlined,color: Colors.red,size: 28,),
+            leading: Icon(
+              Icons.add_alert_outlined,
+              color: Colors.red,
+              size: 28,
+            ),
             title: Text('Subscribes'),
             onTap: () {
               //Navigator.pop(context);
@@ -55,14 +65,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return Subscribes();
+                    return SubscribesScreen();
                   },
                 ),
               );
             },
           ),
           ListTile(
-            leading: Icon(Icons.local_fire_department,size: 28,),
+            leading: Icon(
+              Icons.local_fire_department,
+              size: 28,
+            ),
             title: Text('Active Fires'),
             onTap: () {
               //Navigator.pop(context);
@@ -77,7 +90,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.account_circle,size: 28,),
+            leading: Icon(
+              Icons.account_circle,
+              size: 28,
+            ),
             title: Text('Profile'),
             onTap: () {
               //Navigator.pop(context);
@@ -92,7 +108,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings,size: 28,),
+            leading: Icon(
+              Icons.settings,
+              size: 28,
+            ),
             title: Text('Settings'),
           ),
           ListTile(
