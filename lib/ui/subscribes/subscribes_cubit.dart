@@ -15,7 +15,7 @@ class SubscribesCubit extends Cubit<SubscribesState> {
   SubscribesCubit() : super(SubscribesState(loading: false)) {
     dio = Dio(BaseOptions(
       headers: {
-        "host": "yesilkalacak.com",
+        "host": "server.yesilkalacak.com",
         'Content-Type': 'application/json; charset=utf-8',
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
@@ -28,7 +28,7 @@ class SubscribesCubit extends Cubit<SubscribesState> {
     emit(SubscribesState(loading: true));
     try {
       var req = await dio.post(
-          ("https://yesilkalacak.com/api/user/addSubscribe"),
+          ("http://server.yesilkalacak.com/api/user/addSubscribe"),
           data: FormData.fromMap({
             "user_id": user?['id'],
             "title": title,
@@ -47,7 +47,8 @@ class SubscribesCubit extends Cubit<SubscribesState> {
   getSubscribes() async {
     emit(SubscribesState(loading: true));
     try {
-      var req = await dio.get("https://yesilkalacak.com/api/user/subscribes");
+      var req =
+          await dio.get("http://server.yesilkalacak.com/api/user/subscribes");
 
       emit(SubscribesState(loading: false, success: req.statusCode == 200));
     } on DioError catch (e) {

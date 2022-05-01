@@ -27,7 +27,8 @@ class NewReportCubit extends Cubit<NewReportState> {
   saveReport() async {
     emit(NewReportState(loading: true));
     try {
-      var req = await dio.post(("https://yesilkalacak.com/api/user/report"),
+      var req = await dio.post(
+          ("http://server.yesilkalacak.com/api/user/report"),
           data: FormData.fromMap({
             "user_id": user?['id'],
             "image": MultipartFile.fromFile(image!),

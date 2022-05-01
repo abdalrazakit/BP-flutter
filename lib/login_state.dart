@@ -18,7 +18,8 @@ class LoginCubit extends Cubit<LoginState> {
   sendCode(String phone) async {
     emit(LoginState(loading: true));
     try {
-      var s = await dio.post(("https://yesilkalacak.com/api/user/sendCode"),
+      var s = await dio.post(
+          ("http://server.yesilkalacak.com/api/user/sendCode"),
           data: {"phone": phone});
       emit(LoginState(loading: false, login_success: false));
     } on DioError catch (e) {
@@ -33,7 +34,8 @@ class LoginCubit extends Cubit<LoginState> {
   login(String phone, String code) async {
     // emit(LoginState(loading: true));
     try {
-      var req = await dio.post(("https://yesilkalacak.com/api/user/login"),
+      var req = await dio.post(
+          ("http://server.yesilkalacak.com/api/user/login"),
           data: {"code": code, "phone": phone});
       token = req.data["data"]["token"];
       user = req.data["data"]["user"];
