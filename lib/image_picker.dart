@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // if the video has a sound track (and is not muted).
       // Mute the video so it auto-plays in web!
       // This is not needed if the call to .play is the result of user
-      // interaction (clicking on a "play" button, for example).
+      // interaction (clicking on a "play" button, for yesilkalacal).
       final double volume = kIsWeb ? 0.0 : 1.0;
       await controller.setVolume(volume);
       await controller.initialize();

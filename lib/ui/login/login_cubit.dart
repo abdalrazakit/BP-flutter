@@ -1,26 +1,22 @@
 import 'package:dio/dio.dart';
+import 'package:final_project/core/user_pref.dart';
 import 'package:final_project/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../core/constans.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   late Dio dio;
 
   LoginCubit() : super(LoginState(loading: false)) {
-    dio = Dio(BaseOptions(headers: {
-      // "content-type": "application/json",
-      // "host": "yesilkalacak.com"
-      "accept": "application/json",
-      "content-type": "application/json; charset=utf-8",
-    }));
-    dio.interceptors.add(new LogInterceptor());
+    dio = Dio(BaseOptions(headers: headers, baseUrl: baseApiUrl));
+    dio.interceptors.add(LogInterceptor());
   }
 
   sendCode(String phone) async {
     emit(LoginState(loading: true));
     try {
-      var s = await dio.post(
-          ("http://server.yesilkalacak.com/api/user/sendCode"),
-          data: {"phone": phone});
+      var s = await dio.post(("user/sendCode"), data: {"phone": phone});
       emit(LoginState(loading: false, login_success: false));
     } on DioError catch (e) {
       if (e.response != null) {
@@ -31,14 +27,18 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  login(String phone, String code) async {
+  login(String phone, String code, String fcm_token) async {
     // emit(LoginState(loading: true));
     try {
-      var req = await dio.post(
-          ("http://server.yesilkalacak.com/api/user/login"),
-          data: {"code": code, "phone": phone});
+      var req = await dio.post("user/login",
+          data: {"code": code, "phone": phone, 'fcm_token': fcm_token});
       token = req.data["data"]["token"];
       user = req.data["data"]["user"];
+
+      setToken(token!);
+
+
+
       emit(LoginState(loading: false, login_success: true));
     } on DioError catch (e) {
       if (e.response != null) {
