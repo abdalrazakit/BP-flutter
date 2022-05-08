@@ -1,12 +1,9 @@
 import 'package:final_project/ui/custom_drawer.dart';
-import 'package:final_project/ui/all_fires/all_fires_screen.dart';
+import 'package:final_project/ui/map_screen.dart';
 import 'package:final_project/ui/subscribes/subscribes_cubit.dart';
 import 'package:final_project/ui/subscribes/subscribes_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-import '../pick_map_screen.dart';
 
 class SubscribesScreen extends StatefulWidget {
   const SubscribesScreen({Key? key}) : super(key: key);
@@ -48,26 +45,16 @@ class _SubscribesScreenState extends State<SubscribesScreen> {
             children: [
               Column(
                 children: [
-
                   Container(
-                    child: Builder(builder: (context) {
-                      return PickMapSample(bloc: bloc);
-                    }),
+                    child: MapSample(),
                     color: Colors.deepPurple,
                     height: 250,
                   ),
-
                   _buildTextField(),
                   FloatingActionButton.extended(
                     backgroundColor: Colors.white,
                     onPressed: () {
-                      if (validate()) {
-                        bloc.saveSubscribe();
-                      } else {
-                        Fluttertoast.showToast(
-                          msg: "please fill all inputs",
-                        );
-                      }
+                      bloc.saveSubscribe();
                     },
                     label: Text('Save The Location'),
                     icon: Icon(Icons.add),
@@ -82,21 +69,19 @@ class _SubscribesScreenState extends State<SubscribesScreen> {
                   Expanded(
                     child: ListView.builder(
                       itemBuilder: (ctx, index) {
-                        final item = bloc.subscribes[index];
+                        final item = bloc.subscribe[index];
                         return Column(
                           children: [
                             ListTile(
                               leading: CircleAvatar(
                                 child: Text("${index + 1}"),
                               ),
-                              title: Text(item['description']),
+                              title: Text(item['title']),
                               onTap: () {},
-                               trailing: IconButton(
-                                 icon: Icon(Icons.delete_outline),
-                                 onPressed: () {
-                                   bloc.deleteSubscribe (item['id']);
-                                 },
-                               ),
+                              // trailing: IconButton(
+                              //   icon: Icon(Icons.delete_outline),
+                              //   onPressed: () {},
+                              // ),
                             ),
                             const Divider(
                               color: Colors.black,
@@ -106,7 +91,7 @@ class _SubscribesScreenState extends State<SubscribesScreen> {
                           ],
                         );
                       },
-                      itemCount: bloc.subscribes.length,
+                      itemCount: bloc.subscribe.length,
                     ),
                   ),
                 ],
@@ -116,12 +101,7 @@ class _SubscribesScreenState extends State<SubscribesScreen> {
         );
       },
       listener: (BuildContext context, SubscribesState? state) {
-        if (state?.success ?? false  ) {
-
-          bloc.clear();
-          Fluttertoast.showToast(
-            msg: "Successfully!",
-          );
+        if (state?.success ?? false) {
           bloc.getSubscribes();
         }
       },
@@ -146,9 +126,6 @@ class _SubscribesScreenState extends State<SubscribesScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
       child: TextField(
-        onChanged:  (s){
-          bloc.description=s;
-        },
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(18),
@@ -176,9 +153,5 @@ class _SubscribesScreenState extends State<SubscribesScreen> {
         onTap: () {},
       ),
     );
-  }
-
-  bool validate() {
-    return (bloc.description ?? '').length  > 3 && bloc.latLng != null;
   }
 }

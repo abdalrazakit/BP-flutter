@@ -4,7 +4,6 @@ import 'package:final_project/ui/new_report/new_report_cubit.dart';
 import 'package:final_project/ui/pick_map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../custom_drawer.dart';
@@ -35,8 +34,8 @@ class _NewReportScreenState extends State<NewReportScreen> {
         if (state.loading) {
           return const Material(
               child: Center(
-                child: CircularProgressIndicator(),
-              ));
+            child: CircularProgressIndicator(),
+          ));
         }
         return Scaffold(
             appBar: AppBar(
@@ -45,13 +44,7 @@ class _NewReportScreenState extends State<NewReportScreen> {
               actions: [
                 TextButton(
                     onPressed: () {
-                      if (validate()) {
-                        bloc.saveReport();
-                      } else {
-                        Fluttertoast.showToast(
-                          msg: "please fill all inputs",
-                        );
-                      }
+                      bloc.saveReport();
                     },
                     child: const Text(
                       "Send!",
@@ -82,8 +75,7 @@ class _NewReportScreenState extends State<NewReportScreen> {
                       height: 20,
                     ),
 
-                    if (bloc.image == null) _addImage() else
-                      _previewImage(),
+                    if (bloc.image == null) _addImage() else _previewImage(),
 
                     const SizedBox(
                       height: 50,
@@ -96,13 +88,7 @@ class _NewReportScreenState extends State<NewReportScreen> {
       },
       listener: (BuildContext context, NewReportState? state) {
         if (state?.success ?? false) {
-          //    Navigator.pop(context);
-
-          Fluttertoast.showToast(
-            msg: "Report Sended!",
-          );
-          controller.clear();
-          bloc.clear();
+          Navigator.pop(context);
         }
       },
     );
@@ -127,10 +113,10 @@ class _NewReportScreenState extends State<NewReportScreen> {
         backgroundColor: Colors.white,
         onPressed: () async {
           final selectedImage = (await ImagePicker().getImage(
-              source: ImageSource.camera,
-              imageQuality: 50,
-              maxHeight: 720,
-              maxWidth: 1024))
+                  source: ImageSource.camera,
+                  imageQuality: 50,
+                  maxHeight: 720,
+                  maxWidth: 1024))
               ?.path;
 
           bloc.changeImage(selectedImage);
@@ -161,8 +147,8 @@ class _NewReportScreenState extends State<NewReportScreen> {
                 ),
                 Positioned.fill(
                     child: Container(
-                      color: Colors.black38,
-                    )),
+                  color: Colors.black38,
+                )),
                 const Positioned.fill(
                   child: Center(
                     child: Icon(Icons.clear),
@@ -216,12 +202,6 @@ class _NewReportScreenState extends State<NewReportScreen> {
         ],
       ),
     );
-  }
-
-  bool validate() {
-    return //(bloc.desc ?? '').length  > 3 &&
-        bloc.image != null &&
-        bloc.latLng != null;
   }
 
 // _buildSendButton() {

@@ -1,22 +1,17 @@
-import 'package:final_project/core/user_pref.dart';
-import 'package:final_project/ui/login/login_screen.dart';
 import 'package:final_project/ui/new_report/new_report_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'core/fcm.dart';
 import 'onboarding.dart';
 
 String? token;
 
 Map<String, dynamic>? user;
-late SharedPreferences prefs;
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initFcm();
-  prefs = await SharedPreferences.getInstance();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
   bool seen = prefs.getBool('seen') ?? false;
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -40,12 +35,7 @@ class Start extends StatelessWidget {
           if (!seen) {
             return OnBoarding();
           } else {
-            if (getToken() != null) {
-              return  NewReportScreen();
-            } else{
-
-              return  LoginScreen();
-            }
+            return NewReportScreen();
           }
         },
       ),
