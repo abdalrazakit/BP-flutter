@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:final_project/ui/all_fires/all_fires_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -22,7 +23,7 @@ Future<void> initFcm() async {
   await Firebase.initializeApp();
 
   // Set the background messaging handler early on, as a named top-level function
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+ // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   if (!kIsWeb) {
     channel = const AndroidNotificationChannel(
@@ -64,7 +65,7 @@ class FCMLlistiner extends StatefulWidget {
 }
 
 class _FCMLlistiner extends State<FCMLlistiner> {
-  String? _token;
+
 
   @override
   void initState() {
@@ -72,12 +73,16 @@ class _FCMLlistiner extends State<FCMLlistiner> {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {
-      if (message != null) {
-        //  Navigator.pushNamed(
-        //    context,
-        //    '/message',
-        //    arguments: MessageArguments(message, true),
-        //  );
+      navigateFromMessage(message?.data);
+    });
+
+    final InitializationSettings initializationSettings =
+        InitializationSettings(android: AndroidInitializationSettings("@mipmap/ic_launcher") );
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: (String? payload) async {
+      if (payload != null) {
+        navigateFromMessage(jsonDecode(payload));
       }
     });
 
@@ -86,31 +91,39 @@ class _FCMLlistiner extends State<FCMLlistiner> {
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null && !kIsWeb) {
         flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channel.description,
-              // TODO add a proper drawable resource to android, for now using
-              //      one that already exists in example app.
-              icon: 'launch_background',
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channel.description,
+                // TODO add a proper drawable resource to android, for now using
+                //      one that already exists in example app.
+                icon: 'launch_background',
+              ),
             ),
-          ),
-        );
+            payload: jsonEncode(message.data  ));
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published!');
-      // Navigator.pushNamed(
-      //   context,
-      //   '/message',
-      //   arguments: MessageArguments(message, true),
-      // );
+      navigateFromMessage(message.data);
     });
+  }
+
+  void navigateFromMessage(Map<String, dynamic>? data) {
+    if (data != null && data['type'] == 'fire_near_user') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return AllFiresScreen();
+          },
+        ),
+      );
+    }
   }
 
   @override

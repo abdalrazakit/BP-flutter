@@ -35,7 +35,7 @@ class Start extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home: Builder(
+      home: FCMLlistiner (child:  Builder(
         builder: (context) {
           if (!seen) {
             return OnBoarding();
@@ -48,7 +48,7 @@ class Start extends StatelessWidget {
             }
           }
         },
-      ),
+      ) ,),
     );
   }
 }
