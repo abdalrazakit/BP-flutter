@@ -1,21 +1,17 @@
 import 'dart:async';
 
+import 'package:final_project/ui/custom_drawer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'new_report/new_report_cubit.dart';
-
-class PickMapSample extends StatefulWidget {
-  final NewReportCubit bloc;
-
-  const PickMapSample({Key? key, required this.bloc}) : super(key: key);
+class MapSample extends StatefulWidget {
   @override
-  State<PickMapSample> createState() => PickMapSampleState();
+  State<MapSample> createState() => MapSampleState();
 }
 
-class PickMapSampleState extends State<PickMapSample> {
+class MapSampleState extends State<MapSample> {
   Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -31,22 +27,22 @@ class PickMapSampleState extends State<PickMapSample> {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      return GoogleMap(
+    return Scaffold(
+      drawer: CustomDrawer(),
+      body: GoogleMap(
         mapType: MapType.hybrid,
-        myLocationEnabled: true,
-        onTap: (d) {
-          widget.bloc.onMapTap(d);
-        },
-        mapToolbarEnabled: true,
-        markers: widget.bloc.getMarkers(),
         initialCameraPosition: _kGooglePlex,
         gestureRecognizers: {Factory(() => EagerGestureRecognizer())},
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
-      );
-    });
+      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: _goToTheLake,
+      //   label: Text('To the lake!'),
+      //   icon: Icon(Icons.directions_boat),
+      // ),
+    );
   }
 
   Future<void> _goToTheLake() async {
