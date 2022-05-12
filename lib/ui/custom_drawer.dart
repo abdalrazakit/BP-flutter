@@ -1,9 +1,11 @@
+import 'package:final_project/core/user_pref.dart';
+import 'package:final_project/ui/about.dart';
+import 'package:final_project/ui/all_fires/all_fires_screen.dart';
+import 'package:final_project/ui/login/login_screen.dart';
 import 'package:final_project/ui/new_report/new_report_screen.dart';
-import 'package:final_project/ui/personal_information.dart';
 import 'package:final_project/ui/subscribes/subscribes_screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-
-import 'map_screen.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -20,14 +22,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            decoration: BoxDecoration(color: Colors.black38
-                // image: DecorationImage(
-                //   image: AssetImage("assets/images/drawer.jpg"),
-                //   fit: BoxFit.cover,
-                // ),
-                ),
+            decoration: BoxDecoration(
+              color: Colors.black38,
+              image: DecorationImage(
+                image: AssetImage("assets/images/fire2.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Text(
-              'Drawer',
+              'Yeşil Kalacak',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 32,
@@ -38,9 +41,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: Icon(
               Icons.report_gmailerrorred,
               color: Colors.red,
-              size: 28,
+              size: 30,
             ),
-            title: Text('New Report'),
+            title: Text(
+              'New Report',
+              style: TextStyle(fontSize: 18),
+            ),
             onTap: () {
               Navigator.pushReplacement(
                 context,
@@ -56,9 +62,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: Icon(
               Icons.add_alert_outlined,
               color: Colors.red,
-              size: 28,
+              size: 30,
             ),
-            title: Text('Subscribes'),
+            title: Text(
+              'Subscribes',
+              style: TextStyle(fontSize: 18),
+            ),
             onTap: () {
               //Navigator.pop(context);
               Navigator.pushReplacement(
@@ -74,16 +83,20 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ListTile(
             leading: Icon(
               Icons.local_fire_department,
-              size: 28,
+              color: Colors.red,
+              size: 30,
             ),
-            title: Text('Active Fires'),
+            title: Text(
+              'Active Fires',
+              style: TextStyle(fontSize: 18),
+            ),
             onTap: () {
               //Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return MapSample();
+                    return AllFiresScreen();
                   },
                 ),
               );
@@ -92,16 +105,20 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ListTile(
             leading: Icon(
               Icons.account_circle,
-              size: 28,
+              color: Colors.red,
+              size: 30,
             ),
-            title: Text('Profile'),
+            title: Text(
+              'About',
+              style: TextStyle(fontSize: 18),
+            ),
             onTap: () {
               //Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return PersonalInformation();
+                    return About();
                   },
                 ),
               );
@@ -109,14 +126,23 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
           ListTile(
             leading: Icon(
-              Icons.settings,
-              size: 28,
+              Icons.logout,
+              color: Colors.red,
+              size: 30,
             ),
-            title: Text('Settings'),
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('About'),
+            title: Text(
+              'Logout',
+              style: TextStyle(fontSize: 18),
+            ),
+            onTap: () async {
+              await deleteToken();
+              await FirebaseMessaging.instance.deleteToken();
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                builder: (context) {
+                  return LoginScreen();
+                },
+              ), (c) => true);
+            },
           ),
         ],
       ),
