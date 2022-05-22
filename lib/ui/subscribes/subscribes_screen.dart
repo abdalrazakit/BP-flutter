@@ -43,7 +43,7 @@ class _SubscribesScreenState extends State<SubscribesScreen> {
             title: const Text("Subscribes"),
             centerTitle: true,
           ),
-          drawer: CustomDrawer(),
+       //   drawer: CustomDrawer(),
           body: Stack(
             children: [
               Column(

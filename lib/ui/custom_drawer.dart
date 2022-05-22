@@ -8,7 +8,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+  final  onTap ;
+  const CustomDrawer({Key? key, this.onTap}) : super(key: key);
 
   @override
   _CustomDrawerState createState() => _CustomDrawerState();
@@ -22,110 +23,117 @@ class _CustomDrawerState extends State<CustomDrawer> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            padding: EdgeInsets.only(top: 20,left: 10),
+            padding: EdgeInsets.only(top: 20, left: 10),
             decoration: BoxDecoration(
               color: Colors.black38,
               image: DecorationImage(
-                image: AssetImage("assets/images/dbg.jpg"),
-                fit: BoxFit.cover,
+                image: AssetImage("assets/images/logo.png" , ),
               ),
             ),
             child: Text(
               'Yeşil Kalacak',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 32,
-                fontWeight: FontWeight.bold
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          if (ModalRoute.of(context)!.settings.name != 'NewReport')
+            ListTile(
+              leading: Icon(
+                Icons.report_gmailerrorred,
+                color: Colors.red,
+                size: 35,
               ),
+              title: Text(
+                'New Report',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+               widget.onTap();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    settings: RouteSettings(name: 'NewReport'),
+                    builder: (context) {
+                      return NewReportScreen();
+                    },
+                  ),
+                );
+              },
             ),
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.report_gmailerrorred,
-              color: Colors.red,
-              size: 35,
+          if (ModalRoute.of(context)!.settings.name != 'Subscribes')
+            ListTile(
+              leading: Icon(
+                Icons.add_alert_outlined,
+                color: Colors.red,
+                size: 35,
+              ),
+              title: Text(
+                'Subscribes',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              onTap: () {  widget.onTap();
+                //Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    settings: RouteSettings(name: 'Subscribes'),
+                    builder: (context) {
+                      return SubscribesScreen();
+                    },
+                  ),
+                );
+              },
             ),
-            title: Text(
-              'New Report',
-              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+        //  if (ModalRoute.of(context)!.settings.name != 'ActiveFires')
+        //    ListTile(
+         //     leading: Icon(
+         //       Icons.local_fire_department,
+         //       color: Colors.red,
+         //       size: 35,
+         //     ),
+         //     title: Text(
+         //       'Active Fires',
+         //       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+         //     ),
+         //     onTap: () {
+         //       //Navigator.pop(context);
+         //       Navigator.push(
+         //         context,
+         //         MaterialPageRoute(
+         //           settings: RouteSettings(name: 'ActiveFires'),
+         //           builder: (context) {
+       //              return AllFiresScreen();
+       //            },
+       //          ),
+       //        );
+       //      },
+       //    ),
+          if (ModalRoute.of(context)!.settings.name != 'About')
+            ListTile(
+              leading: Icon(
+                Icons.account_circle,
+                color: Colors.red,
+                size: 35,
+              ),
+              title: Text(
+                'About',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              onTap: () {  widget.onTap();
+                //Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    settings: RouteSettings(name: 'About'),
+                    builder: (context) {
+                      return About();
+                    },
+                  ),
+                );
+              },
             ),
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return NewReportScreen();
-                  },
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.add_alert_outlined,
-              color: Colors.red,
-              size: 35,
-            ),
-            title: Text(
-              'Subscribes',
-              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-            ),
-            onTap: () {
-              //Navigator.pop(context);
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return SubscribesScreen();
-                  },
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.local_fire_department,
-              color: Colors.red,
-              size: 35,
-            ),
-            title: Text(
-              'Active Fires',
-              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-            ),
-            onTap: () {
-              //Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return AllFiresScreen();
-                  },
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.account_circle,
-              color: Colors.red,
-              size: 35,
-            ),
-            title: Text(
-              'About',
-              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-            ),
-            onTap: () {
-              //Navigator.pop(context);
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return About();
-                  },
-                ),
-              );
-            },
-          ),
           ListTile(
             leading: Icon(
               Icons.logout,
@@ -134,7 +142,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             title: Text(
               'Logout',
-              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             onTap: () async {
               await deleteToken();

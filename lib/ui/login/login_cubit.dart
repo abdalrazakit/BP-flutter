@@ -17,7 +17,8 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginState(loading: true));
     try {
       var s = await dio.post(("user/sendCode"), data: {"phone": phone});
-      emit(LoginState(loading: false, login_success: false));
+
+      emit(LoginState(loading: false, login_success: false, code_sent: true));
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response!.statusCode == 411) {
@@ -37,8 +38,6 @@ class LoginCubit extends Cubit<LoginState> {
 
       setToken(token!);
 
-
-
       emit(LoginState(loading: false, login_success: true));
     } on DioError catch (e) {
       if (e.response != null) {
@@ -56,7 +55,12 @@ class LoginState {
   bool loading = false;
   String? login_error;
   bool login_success;
+  bool code_sent;
 
-  LoginState(
-      {required this.loading, this.login_error, this.login_success = false});
+  LoginState({
+    required this.loading,
+    this.login_error,
+    this.login_success = false,
+    this.code_sent = false,
+  });
 }

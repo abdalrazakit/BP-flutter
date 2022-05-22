@@ -24,6 +24,8 @@ class _AllFiresScreenState extends State<AllFiresScreen> {
   final titleController = TextEditingController();
   late AllFiresCubit bloc;
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     bloc = AllFiresCubit(moveToFireById: widget.moveToFireById);
@@ -44,9 +46,10 @@ class _AllFiresScreenState extends State<AllFiresScreen> {
         }
 
         return Scaffold(
+          key: _scaffoldKey,
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
@@ -57,13 +60,20 @@ class _AllFiresScreenState extends State<AllFiresScreen> {
             },
             child: Icon(Icons.local_fire_department),
             backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           appBar: AppBar(
             title: const Text("All Fires Map"),
             centerTitle: true,
           ),
-          drawer: CustomDrawer(),
+          drawer: CustomDrawer(
+            onTap: () {
+              if (_scaffoldKey.currentState!.isDrawerOpen) {
+                _scaffoldKey.currentState!.openEndDrawer();
+              }
+            },
+          ),
           body: PickMapSample(bloc: bloc),
         );
       },

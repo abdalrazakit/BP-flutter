@@ -16,10 +16,12 @@ class NewReportCubit extends Cubit<NewReportState> with MappableCubit {
   String? desc;
 
 
+
   NewReportCubit() : super(NewReportState(loading: false)) {
     dio = Dio(BaseOptions(headers: headers, baseUrl: baseApiUrl));
     dio.interceptors.add(LogInterceptor());
     dio.interceptors.add(tokenInterceptor);
+
   }
 
   saveReport() async {

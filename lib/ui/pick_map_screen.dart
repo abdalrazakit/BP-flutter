@@ -30,8 +30,6 @@ class PickMapSampleState extends State<PickMapSample> {
       zoom: 14.4746,
     );
 
-    _goToTheLake(target: widget.bloc.target);
-
     super.initState();
   }
 
@@ -42,36 +40,61 @@ class PickMapSampleState extends State<PickMapSample> {
           bloc: widget.bloc,
           listener: _listener,
           builder: (BuildContext context, state) {
-            return GoogleMap(
-              mapType: MapType.normal,
-              myLocationEnabled: true,
-              onTap: (d) {
-                widget.bloc.onMapTap(d);
-              },
-              mapToolbarEnabled: true,
-              markers: widget.bloc.getMarkers(),
-              initialCameraPosition: _kGooglePlex,
-              gestureRecognizers: {Factory(() => EagerGestureRecognizer())},
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
+            return Stack(
+              children: [
+                GoogleMap(
+                  mapType: MapType.normal,
+                  myLocationEnabled: true,
+                  onTap: (d) {
+                    widget.bloc.onMapTap(d);
+                  },
+                  mapToolbarEnabled: true,
+                  markers: widget.bloc.getMarkers(),
+                  initialCameraPosition: _kGooglePlex,
+                  circles: widget.bloc.getCircles(),
+                  gestureRecognizers: {Factory(() => EagerGestureRecognizer())},
+                  onMapCreated: (GoogleMapController controller) {
+                    widget.bloc.setMapController(controller);
+                  },
+                ),
+               // Positioned(
+               //   child: Center(
+               //     child: Material(
+               //       borderRadius: BorderRadius.circular(32),
+               //       child: InkWell(
+               //         onTap: (){
+               //           widget.bloc.moveToCurrent();
+               //         },
+               //         child: Padding(
+               //           padding: const EdgeInsets.all(16.0),
+               //           child: Row(  mainAxisSize: MainAxisSize.min,
+               //             children: [
+               //               SizedBox(width: 8,) ,
+//
+               //               Text('Current'),
+               //               SizedBox(width: 16,) ,
+               //               Icon(Icons.location_searching) ,
+               //               SizedBox(width: 8,) ,
+//
+               //             ],
+               //           ),
+               //         ),
+               //       ),
+               //     ),
+               //   ),
+               //   bottom: 16,
+               //   left: 32,
+               //   right: 32,
+               // )
+              ],
             );
           });
     });
   }
 
-  Future<void> _goToTheLake({LatLng? target}) async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-
-        target: target ?? LatLng(37.158333, 38.791668),
-        tilt: 59.440717697143555,
-        zoom: 16.151926040649414)));
-  }
-
   void _listener(BuildContext context, state) {
-    if (widget.bloc.target != null) {
-      _goToTheLake( target :widget.bloc.target);
-    }
+    // if (widget.bloc.target != null) {
+    //   _goToTheLake( target :widget.bloc.target);
+    // }
   }
 }

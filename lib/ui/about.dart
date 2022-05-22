@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'custom_drawer.dart';
 
@@ -10,10 +13,23 @@ class About extends StatefulWidget {
 }
 
 class _AboutState extends State<About> {
+  static String myVideoId = 'pk4mCPYVe5o';
+
+  // the full url: https://www.youtube.com/watch?v=PQSagzssvUQ&ab_channel=NASA
+  // it's an interesting video from NASA on Youtube
+
+  final YoutubePlayerController _ycontroller = YoutubePlayerController(
+    initialVideoId: myVideoId,
+    flags: const YoutubePlayerFlags(
+      autoPlay: false,
+      mute: false,
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightGreen.shade900,
+      backgroundColor: Colors.black87,
       appBar: AppBar(
         title: const Text("About Application"),
         centerTitle: true,
@@ -26,12 +42,22 @@ class _AboutState extends State<About> {
               clipBehavior: Clip.hardEdge,
               elevation: 30,
               margin: EdgeInsets.all(20.0),
-              child: Container(child: Image.asset('assets/images/about1.jpg'))),
+              child: Container(
+                child: YoutubePlayer(
+                  liveUIColor: Colors.amber,
+                  controller: _ycontroller,
+                ),
+              ),),
+
+          // InkWell(
+          //     child: new Text('Open Browser'),
+          //     onTap: ()  {
+          //          const url = 'http://yesilkalacak.com/' ;
+          //        launchUrlString(url);
+          //     }),
           Text(
             'Summary',
-            style: TextStyle(
-              fontSize: 24,
-            ),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           Padding(
             padding: const EdgeInsets.all(10),
@@ -50,7 +76,7 @@ class _AboutState extends State<About> {
           ),
           Text(
             'Our Team',
-            style: TextStyle(fontSize: 24),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 12,
@@ -68,7 +94,7 @@ class _AboutState extends State<About> {
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +107,7 @@ class _AboutState extends State<About> {
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

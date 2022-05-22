@@ -15,8 +15,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginCubit cubit = LoginCubit();
-  TextEditingController _phonenumbercontroller = new TextEditingController(text: '+905453130300' );
-  TextEditingController _smsTextController = new TextEditingController(text:'112233' );
+  TextEditingController _phonenumbercontroller = new TextEditingController();
+  TextEditingController _smsTextController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +27,16 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: BlocListener(
         bloc: cubit,
-        listener: (context, login) {
-          if ((login as LoginState).login_success != true) {
-            _showToast(context);
-          } else {
+        listener: (context, LoginState state) {
+          if (state.login_error != null) {
+            _showToast(context, state.login_error!);
+          }
+          if (state.code_sent) {
+            _showToast(context, 'Code sent');
+          }
+
+          if (state.login_success) {
+            _showToast(context, 'Login as successfully ');
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -63,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   labelText: "Phone Number",
                                   icon: Icon(Icons.phone),
                                   errorText: state.login_error),
+                              keyboardType: TextInputType.phone,
                             ),
                           ),
                           SizedBox(width: 16),
@@ -87,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             labelText: "SMS Code",
                             icon: Icon(Icons.message_rounded),
                           ),
+                          keyboardType: TextInputType.phone,
                         ),
                       ),
                       Spacer(),
@@ -97,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             cubit.login(
                                 _phonenumbercontroller.text,
                                 _smsTextController.text,
-                            (  await  FirebaseMessaging.instance.getToken()) !);
+                                (await FirebaseMessaging.instance.getToken())!);
                           },
                           child: Text("Login"),
                         ),
@@ -112,13 +120,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _showToast(BuildContext context) {
+  void _showToast(BuildContext context, String result) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        content: const Text('Code Sended'),
+        content: Text(result),
         action: SnackBarAction(
-            label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+            label: 'Ok', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
   }

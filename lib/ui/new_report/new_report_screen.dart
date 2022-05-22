@@ -62,7 +62,7 @@ class _NewReportScreenState extends State<NewReportScreen> {
                     ))
               ],
             ),
-            drawer: CustomDrawer(),
+           // drawer: CustomDrawer(),
             body: ListView(
               children: [
                 Column(
@@ -99,7 +99,7 @@ class _NewReportScreenState extends State<NewReportScreen> {
           //    Navigator.pop(context);
 
           Fluttertoast.showToast(
-            msg: "Report Sended!",
+            msg: "Report Sent!",
           );
           controller.clear();
           bloc.clear();

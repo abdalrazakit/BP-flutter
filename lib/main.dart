@@ -34,6 +34,7 @@ class Start extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "Yeşil kalacak",
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.lightBlue[800],
@@ -45,7 +46,7 @@ class Start extends StatelessWidget {
         // text styling for headlines, titles, bodies of text, and more.
         textTheme: const TextTheme(
           headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          headline6: TextStyle(fontSize: 30.0, fontStyle: FontStyle.normal),
+          headline6: TextStyle(fontSize: 25.0, fontStyle: FontStyle.normal),
           bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Roboto'),
         ),
       ),
