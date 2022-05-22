@@ -1,7 +1,10 @@
+import 'package:final_project/ui/all_fires/all_fires_screen.dart';
+import 'package:final_project/ui/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import 'core/user_pref.dart';
 import 'models/on_boarding_model.dart';
 import 'ui/new_report/new_report_screen.dart';
 
@@ -136,7 +139,11 @@ class _OnBoardingState extends State<OnBoarding> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return NewReportScreen(); // LoginScreen();
+                          if (getToken() != null) {
+                            return  AllFiresScreen();
+                          } else {
+                            return LoginScreen();
+                          }// LoginScreen();
                         },
                       ),
                     );

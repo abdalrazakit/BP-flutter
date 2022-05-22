@@ -12,10 +12,12 @@ import '../MappableCubit.dart';
 import 'all_fires_state.dart';
 
 class AllFiresCubit extends Cubit<AllFiresState> with MappableCubit {
-  late Dio dio;
-  List<Map> subscribes = [];
+  final int? moveToFireById;
 
-  AllFiresCubit() : super(AllFiresState(loading: false)) {
+  late Dio dio;
+  List<Map> reports = [];
+
+  AllFiresCubit({this.moveToFireById}) : super(AllFiresState(loading: false)) {
     dio = Dio(BaseOptions(headers: headers, baseUrl: baseApiUrl));
     dio.interceptors.add(LogInterceptor());
     dio.interceptors.add(tokenInterceptor);
@@ -24,21 +26,22 @@ class AllFiresCubit extends Cubit<AllFiresState> with MappableCubit {
   getSubscribes() async {
     emit(AllFiresState(loading: true));
     try {
-      var req = await dio.get("user/getConfirmedReports");
+      var req = await dio.get("user/getActiveFires");
 
-      subscribes = (req.data['data'] as List)
+      reports = (req.data['data'] as List)
           .map((e) => e as Map<String, dynamic>)
           .toList();
 
       try {
-        final sLocations = subscribes.map((sub) {
-          final _e = LatLng(double.parse(sub['lat_lang']['lat'].toString()),
-              double.parse(sub['lat_lang']['lang'].toString()));
+        final sLocations = reports.map((sub) {
+          final _e = _latLngFromReport(sub);
+          final _den_degree = sub['den_degree'];
 
           final _marker = Marker(
-              position: _e,
-              markerId: MarkerId(_e.toJson().toString()),
-
+            infoWindow: InfoWindow(title: _getDegreeLabel(_den_degree.toString())),
+            position: _e,
+            visible: true,
+            markerId: MarkerId(_e.toJson().toString()),
           );
 
           return _marker;
@@ -46,6 +49,11 @@ class AllFiresCubit extends Cubit<AllFiresState> with MappableCubit {
         locations = sLocations;
       } catch (e) {
         print(e);
+      }
+
+      if (moveToFireById != null) {
+        final fire = reports.firstWhere((e) => e['id'] == moveToFireById);
+        target = _latLngFromReport(fire);
       }
 
       emit(AllFiresState(loading: false));
@@ -59,5 +67,28 @@ class AllFiresCubit extends Cubit<AllFiresState> with MappableCubit {
   @override
   onRefresh() {
     emit(AllFiresState(loading: false));
+  }
+
+  LatLng _latLngFromReport(Map report) {
+    return LatLng(double.parse(report['lat_lang']['lat'].toString()),
+        double.parse(report['lat_lang']['lng'].toString()));
+  }
+
+  String _getDegreeLabel(String degree) {
+    switch (degree) {
+      case '1':
+        return "Fake";
+
+      case '2':
+        return "Low";
+      case '3':
+        return "Normal";
+      case '4':
+        return "High";
+      case '5':
+        return "dangerous";
+      default:
+        return "No Degree";
+    }
   }
 }

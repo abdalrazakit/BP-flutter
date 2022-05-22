@@ -1,5 +1,6 @@
 import 'package:final_project/ui/custom_drawer.dart';
 import 'package:final_project/ui/all_fires/all_fires_screen.dart';
+import 'package:final_project/ui/new_report/new_report_screen.dart';
 import 'package:final_project/ui/subscribes/subscribes_cubit.dart';
 import 'package:final_project/ui/subscribes/subscribes_state.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,9 @@ import 'all_fires_cubit.dart';
 import 'all_fires_state.dart';
 
 class AllFiresScreen extends StatefulWidget {
-  const AllFiresScreen({Key? key}) : super(key: key);
+  final int? moveToFireById;
+
+  const AllFiresScreen({Key? key, this.moveToFireById}) : super(key: key);
 
   @override
   _AllFiresScreenState createState() => _AllFiresScreenState();
@@ -23,7 +26,7 @@ class _AllFiresScreenState extends State<AllFiresScreen> {
 
   @override
   void initState() {
-    bloc = AllFiresCubit();
+    bloc = AllFiresCubit(moveToFireById: widget.moveToFireById);
     bloc.getSubscribes();
     super.initState();
   }
@@ -41,8 +44,23 @@ class _AllFiresScreenState extends State<AllFiresScreen> {
         }
 
         return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return NewReportScreen();
+                  },
+                ),
+              );
+            },
+            child: Icon(Icons.local_fire_department),
+            backgroundColor: Colors.red,
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           appBar: AppBar(
-            title: const Text("AllFires"),
+            title: const Text("All Fires Map"),
             centerTitle: true,
           ),
           drawer: CustomDrawer(),

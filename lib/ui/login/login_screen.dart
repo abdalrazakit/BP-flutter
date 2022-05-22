@@ -1,3 +1,4 @@
+import 'package:final_project/ui/all_fires/all_fires_screen.dart';
 import 'package:final_project/ui/login/login_cubit.dart';
 import 'package:final_project/ui/new_report/new_report_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -34,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return NewReportScreen();
+                  return AllFiresScreen();
                 },
               ),
             );

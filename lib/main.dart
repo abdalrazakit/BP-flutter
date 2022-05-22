@@ -1,4 +1,5 @@
 import 'package:final_project/core/user_pref.dart';
+import 'package:final_project/ui/all_fires/all_fires_screen.dart';
 import 'package:final_project/ui/login/login_screen.dart';
 import 'package:final_project/ui/new_report/new_report_screen.dart';
 import 'package:flutter/material.dart';
@@ -33,22 +34,37 @@ class Start extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark(),
-      debugShowCheckedModeBanner: false,
-      home: FCMLlistiner (child:  Builder(
-        builder: (context) {
-          if (!seen) {
-            return OnBoarding();
-          } else {
-            if (getToken() != null) {
-              return  NewReportScreen();
-            } else{
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.lightBlue[800],
 
-              return  LoginScreen();
+        // Define the default font family.
+        fontFamily: 'Georgia',
+
+        // Define the default `TextTheme`. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: const TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 30.0, fontStyle: FontStyle.normal),
+          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Roboto'),
+        ),
+      ),
+      debugShowCheckedModeBanner: false,
+      home: FCMLlistiner(
+        child: Builder(
+          builder: (context) {
+            if (!seen) {
+              return OnBoarding();
+            } else {
+              if (getToken() != null) {
+                return AllFiresScreen();
+              } else {
+                return LoginScreen();
+              }
             }
-          }
-        },
-      ) ,),
+          },
+        ),
+      ),
     );
   }
 }

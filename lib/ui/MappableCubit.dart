@@ -1,6 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-mixin MappableCubit {
+mixin MappableCubit<State>  on Cubit<State> {
+  LatLng? target;
   LatLng? latLng;
   List<Marker> locations = [];
 

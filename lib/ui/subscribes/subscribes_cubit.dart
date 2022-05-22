@@ -27,7 +27,7 @@ class SubscribesCubit extends Cubit<SubscribesState> with MappableCubit {
       var req = await dio.post("user/addUserSubscribe", data: {
         "description": description,
         "lat": latLng?.latitude,
-        "lang": latLng?.longitude,
+        "lng": latLng?.longitude,
       });
 
       emit(SubscribesState(loading: false, success: req.statusCode == 200));
@@ -50,7 +50,7 @@ class SubscribesCubit extends Cubit<SubscribesState> with MappableCubit {
       try {
         final sLocations = subscribes.map((sub) {
           final _e = LatLng(double.parse(sub['lat_lang']['lat'].toString()),
-              double.parse(sub['lat_lang']['lang'].toString()));
+              double.parse(sub['lat_lang']['lng'].toString()));
 
           final _marker = Marker(
               position: _e,

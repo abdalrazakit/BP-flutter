@@ -30,7 +30,7 @@ class NewReportCubit extends Cubit<NewReportState> with MappableCubit {
             "image": await MultipartFile.fromFile(image!),
             "description": desc,
             "lat": latLng?.latitude,
-            "lang": latLng?.longitude,
+            "lng": latLng?.longitude,
           }));
 
       emit(NewReportState(loading: false, success: req.statusCode == 200));

@@ -35,12 +35,12 @@ class _NewReportScreenState extends State<NewReportScreen> {
         if (state.loading) {
           return const Material(
               child: Center(
-                child: CircularProgressIndicator(),
-              ));
+            child: CircularProgressIndicator(),
+          ));
         }
         return Scaffold(
             appBar: AppBar(
-              title: const Text("A New Report"),
+              title: const Text("New Report",style: TextStyle(fontStyle: FontStyle.normal ),),
               centerTitle: true,
               actions: [
                 TextButton(
@@ -108,29 +108,16 @@ class _NewReportScreenState extends State<NewReportScreen> {
     );
   }
 
-  Widget _addLocation() {
-    return Center(
-      child: Material(
-        child: FloatingActionButton.extended(
-          backgroundColor: Colors.white,
-          onPressed: () {},
-          label: const Text('Select a Location'),
-          icon: const Icon(Icons.map),
-        ),
-      ),
-    );
-  }
-
   Widget _addImage() {
     return Center(
       child: FloatingActionButton.extended(
         backgroundColor: Colors.white,
         onPressed: () async {
           final selectedImage = (await ImagePicker().getImage(
-              source: ImageSource.camera,
-              imageQuality: 50,
-              maxHeight: 720,
-              maxWidth: 1024))
+                  source: ImageSource.camera,
+                  imageQuality: 50,
+                  maxHeight: 720,
+                  maxWidth: 1024))
               ?.path;
 
           bloc.changeImage(selectedImage);
@@ -161,8 +148,8 @@ class _NewReportScreenState extends State<NewReportScreen> {
                 ),
                 Positioned.fill(
                     child: Container(
-                      color: Colors.black38,
-                    )),
+                  color: Colors.black38,
+                )),
                 const Positioned.fill(
                   child: Center(
                     child: Icon(Icons.clear),
@@ -220,8 +207,7 @@ class _NewReportScreenState extends State<NewReportScreen> {
 
   bool validate() {
     return //(bloc.desc ?? '').length  > 3 &&
-        bloc.image != null &&
-        bloc.latLng != null;
+        bloc.image != null && bloc.latLng != null;
   }
 
 // _buildSendButton() {

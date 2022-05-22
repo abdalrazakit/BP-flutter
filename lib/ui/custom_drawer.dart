@@ -22,10 +22,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
+            padding: EdgeInsets.only(top: 20,left: 10),
             decoration: BoxDecoration(
               color: Colors.black38,
               image: DecorationImage(
-                image: AssetImage("assets/images/fire2.jpg"),
+                image: AssetImage("assets/images/dbg.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -34,6 +35,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 32,
+                fontWeight: FontWeight.bold
               ),
             ),
           ),
@@ -41,11 +43,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: Icon(
               Icons.report_gmailerrorred,
               color: Colors.red,
-              size: 30,
+              size: 35,
             ),
             title: Text(
               'New Report',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
             ),
             onTap: () {
               Navigator.pushReplacement(
@@ -62,11 +64,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: Icon(
               Icons.add_alert_outlined,
               color: Colors.red,
-              size: 30,
+              size: 35,
             ),
             title: Text(
               'Subscribes',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
             ),
             onTap: () {
               //Navigator.pop(context);
@@ -84,11 +86,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: Icon(
               Icons.local_fire_department,
               color: Colors.red,
-              size: 30,
+              size: 35,
             ),
             title: Text(
               'Active Fires',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
             ),
             onTap: () {
               //Navigator.pop(context);
@@ -106,11 +108,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: Icon(
               Icons.account_circle,
               color: Colors.red,
-              size: 30,
+              size: 35,
             ),
             title: Text(
               'About',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
             ),
             onTap: () {
               //Navigator.pop(context);
@@ -128,11 +130,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: Icon(
               Icons.logout,
               color: Colors.red,
-              size: 30,
+              size: 35,
             ),
             title: Text(
               'Logout',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
             ),
             onTap: () async {
               await deleteToken();
@@ -141,7 +143,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 builder: (context) {
                   return LoginScreen();
                 },
-              ), (c) => true);
+              ), (c) => false);
             },
           ),
         ],

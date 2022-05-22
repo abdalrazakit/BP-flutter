@@ -119,7 +119,7 @@ class _FCMLlistiner extends State<FCMLlistiner> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return AllFiresScreen();
+            return AllFiresScreen(moveToFireById: int.tryParse(  data['fire_id']) ,);
           },
         ),
       );

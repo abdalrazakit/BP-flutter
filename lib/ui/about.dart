@@ -13,7 +13,7 @@ class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Colors.lightGreen.shade900,
       appBar: AppBar(
         title: const Text("About Application"),
         centerTitle: true,
@@ -34,7 +34,7 @@ class _AboutState extends State<About> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(10),
             child: Text(
               'This project was created by Yeşil kalacak team,'
               'In this project, we use mainly artificial intelligence techniques for the detection of forest fires. '
@@ -42,6 +42,7 @@ class _AboutState extends State<About> {
               'with the weather conditions that could affect the fires. We  provide a mobile application intended to use for reporting fires by humans. '
               'Also, the application can notify the people around the confirmed fire to get attention.',
               style: TextStyle(fontSize: 17, color: Colors.white),
+              textAlign: TextAlign.center,
             ),
           ),
           SizedBox(
