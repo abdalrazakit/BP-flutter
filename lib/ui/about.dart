@@ -88,7 +88,7 @@ class _AboutState extends State<About> {
                 children: [
                   Icon(Icons.map_outlined),
                   Text(
-                    '   Abdulrazaq Alhajsaeed',
+                    '   Abdalrazak HAJSAAED',
                     style: TextStyle(fontSize: 18),
                   ),
                 ],
@@ -114,7 +114,7 @@ class _AboutState extends State<About> {
                 children: [
                   Icon(Icons.account_tree_outlined),
                   Text(
-                    '   Yara Isa',
+                    '   Yara ISSA',
                     style: TextStyle(fontSize: 18),
                   ),
                 ],

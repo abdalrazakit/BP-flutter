@@ -65,7 +65,7 @@ class _SubscribesScreenState extends State<SubscribesScreen> {
                         bloc.saveSubscribe();
                       } else {
                         Fluttertoast.showToast(
-                          msg: "please fill all inputs",
+                          msg: "Please fill in all fields",
                         );
                       }
                     },
@@ -120,7 +120,7 @@ class _SubscribesScreenState extends State<SubscribesScreen> {
 
           bloc.clear();
           Fluttertoast.showToast(
-            msg: "Successfully!",
+            msg: "Done successfully!",
           );
           bloc.getSubscribes();
         }

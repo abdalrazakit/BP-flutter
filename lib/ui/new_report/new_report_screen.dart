@@ -54,7 +54,7 @@ class _NewReportScreenState extends State<NewReportScreen> {
                       }
                     },
                     child: const Text(
-                      "Send!",
+                      "Send",
                       style: TextStyle(
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
@@ -110,20 +110,40 @@ class _NewReportScreenState extends State<NewReportScreen> {
 
   Widget _addImage() {
     return Center(
-      child: FloatingActionButton.extended(
-        backgroundColor: Colors.white,
-        onPressed: () async {
-          final selectedImage = (await ImagePicker().getImage(
-                  source: ImageSource.camera,
+      child: Column(
+        children: [
+          FloatingActionButton.extended(
+            backgroundColor: Colors.white,
+            onPressed: () async {
+              final selectedImage = (await ImagePicker().getImage(
+                      source: ImageSource.camera,
+                      imageQuality: 50,
+                      maxHeight: 720,
+                      maxWidth: 1024))
+                  ?.path;
+
+              bloc.changeImage(selectedImage);
+            },
+            label: const Text('Take a Photo'),
+            icon: const Icon(Icons.camera_alt_outlined),
+          ),
+          SizedBox(height: 20,),
+          FloatingActionButton.extended(
+            backgroundColor: Colors.white,
+            onPressed: () async {
+              final selectedImage = (await ImagePicker().getImage(
+                  source: ImageSource.gallery,
                   imageQuality: 50,
                   maxHeight: 720,
                   maxWidth: 1024))
-              ?.path;
+                  ?.path;
 
-          bloc.changeImage(selectedImage);
-        },
-        label: const Text('Take a Photo'),
-        icon: const Icon(Icons.camera_alt_outlined),
+              bloc.changeImage(selectedImage);
+            },
+            label: const Text('Get From Gallery'),
+            icon: const Icon(Icons.photo_library_outlined),
+          ),
+        ],
       ),
     );
   }

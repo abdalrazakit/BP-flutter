@@ -12,7 +12,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('Handling a background message ${message.messageId}');
 }
-
 /// Create a [AndroidNotificationChannel] for heads up notifications
 late AndroidNotificationChannel channel;
 
@@ -21,10 +20,6 @@ late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 Future<void> initFcm() async {
   await Firebase.initializeApp();
-
-  // Set the background messaging handler early on, as a named top-level function
- // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
   if (!kIsWeb) {
     channel = const AndroidNotificationChannel(
       'high_importance_channel', // id
@@ -32,20 +27,11 @@ Future<void> initFcm() async {
       'This channel is used for important notifications.', // description
       importance: Importance.high,
     );
-
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-    /// Create an Android Notification Channel.
-    ///
-    /// We use this channel in the `AndroidManifest.xml` file to override the
-    /// default FCM channel to enable heads up notifications.
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
-
-    /// Update the iOS foreground notification presentation options to allow
-    /// heads up notifications.
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true,
@@ -54,19 +40,14 @@ Future<void> initFcm() async {
     );
   }
 }
-
 class FCMLlistiner extends StatefulWidget {
   final child;
-
   const FCMLlistiner({Key? key, this.child}) : super(key: key);
-
   @override
   State<StatefulWidget> createState() => _FCMLlistiner();
 }
 
 class _FCMLlistiner extends State<FCMLlistiner> {
-
-
   @override
   void initState() {
     super.initState();
@@ -75,17 +56,13 @@ class _FCMLlistiner extends State<FCMLlistiner> {
         .then((RemoteMessage? message) {
       navigateFromMessage(message?.data);
     });
-
     final InitializationSettings initializationSettings =
         InitializationSettings(android: AndroidInitializationSettings("@mipmap/ic_launcher") );
-
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String? payload) async {
       if (payload != null) {
         navigateFromMessage(jsonDecode(payload));
-      }
-    });
-
+      }});
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -99,8 +76,6 @@ class _FCMLlistiner extends State<FCMLlistiner> {
                 channel.id,
                 channel.name,
                 channel.description,
-                // TODO add a proper drawable resource to android, for now using
-                //      one that already exists in example app.
                 icon: 'launch_background',
               ),
             ),

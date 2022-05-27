@@ -7,17 +7,14 @@ import '../../core/constans.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   late Dio dio;
-
   LoginCubit() : super(LoginState(loading: false)) {
     dio = Dio(BaseOptions(headers: headers, baseUrl: baseApiUrl));
     dio.interceptors.add(LogInterceptor());
   }
-
   sendCode(String phone) async {
     emit(LoginState(loading: true));
     try {
       var s = await dio.post(("user/sendCode"), data: {"phone": phone});
-
       emit(LoginState(loading: false, login_success: false, code_sent: true));
     } on DioError catch (e) {
       if (e.response != null) {
@@ -27,17 +24,13 @@ class LoginCubit extends Cubit<LoginState> {
       }
     }
   }
-
   login(String phone, String code, String fcm_token) async {
-    // emit(LoginState(loading: true));
     try {
       var req = await dio.post("user/login",
           data: {"code": code, "phone": phone, 'fcm_token': fcm_token});
       token = req.data["data"]["token"];
       user = req.data["data"]["user"];
-
       setToken(token!);
-
       emit(LoginState(loading: false, login_success: true));
     } on DioError catch (e) {
       if (e.response != null) {
@@ -46,8 +39,6 @@ class LoginCubit extends Cubit<LoginState> {
         }
       }
     }
-    // var data = req.data;
-    // data.
   }
 }
 
